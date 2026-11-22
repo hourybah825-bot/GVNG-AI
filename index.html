@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TASKORA AI – Une aide pour chacun, partout dans le monde</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--indigo:#1b2a5c;--bone:#f6f5f1;--ochre:#e0a31b;--soil:#2b211b;--leaf:#1e7a4c;
+--bg:var(--bone);--text:var(--soil);--muted:#5d544d;--panel:#fff;--line:#d9d5cc;--hero:var(--indigo);--field:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161d;--text:#ecebe6;--muted:#a9a69e;--panel:#1d2030;--line:#32364a;--hero:#101a3d;--field:#14161d}}
+:root[data-theme="dark"]{--bg:#14161d;--text:#ecebe6;--muted:#a9a69e;--panel:#1d2030;--line:#32364a;--hero:#101a3d;--field:#14161d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 1.0625rem/1.6 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;line-height:1.1;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ochre);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
+.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+header.top{background:var(--hero);color:#f6f5f1;position:sticky;top:0;height:100vh;align-self:start;display:flex;flex-direction:column;overflow-y:auto}
+.content{min-width:0}
+nav{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 1.25rem}
+.logo{font:800 1.4rem "Bricolage Grotesque",sans-serif;text-decoration:none;letter-spacing:.02em}
+.logo span{color:var(--ochre)}
+nav ul{display:flex;flex-direction:column;gap:.3rem;list-style:none;margin:0;padding:0}
+nav li a{display:block;padding:.6rem .8rem;border-radius:6px}
+nav a{text-decoration:none;font-weight:600;opacity:.9}
+nav a:hover,nav a[aria-current]{background:rgba(255,255,255,.12);opacity:1}
+nav a[aria-current]{box-shadow:inset 4px 0 0 var(--ochre)}
+.sub a{padding-left:1.6rem;font-size:.95rem}
+nav a.cta{background:var(--ochre);color:var(--soil);padding:.6rem 1rem;border-radius:6px;text-decoration:none;text-align:center;margin-top:.5rem}
+.band{height:24px;background:repeating-linear-gradient(90deg,var(--ochre) 0 14px,var(--soil) 14px 28px);border-block:2px solid var(--ochre)}
+.btn{display:inline-block;padding:.8rem 1.4rem;border-radius:6px;font-weight:700;text-decoration:none;background:var(--ochre);color:var(--soil);border:0;font-size:1rem;cursor:pointer;font-family:inherit}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:transparent;color:inherit;border:2px solid currentColor;margin-left:.5rem}
+.hero{padding:3.5rem 0 4.5rem}
+.greet{font:700 clamp(2.6rem,9vw,5.5rem)/1 "Bricolage Grotesque",sans-serif;color:var(--ochre);min-height:1.15em;margin:0 0 1.2rem;transition:opacity .35s}
+.greet.out{opacity:0}
+.greet small{display:block;font:600 1rem "Source Sans 3",sans-serif;color:#f6f5f1;opacity:.75;margin-top:.5rem}
+.hero h1{font-size:clamp(1.7rem,4.5vw,2.8rem);max-width:20ch;font-weight:800}
+.hero p{max-width:56ch;font-size:1.2rem;opacity:.92;margin:1.2rem 0 2rem}
+.view{padding:3rem 0 4rem}
+.view h1{font-size:clamp(1.9rem,4.5vw,2.8rem);margin-bottom:.6rem}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));border:2px solid var(--text)}
+.cell{padding:1.4rem;border:1px solid var(--line);background:var(--panel);text-decoration:none;display:block}
+a.cell:hover{background:var(--bg)}
+.cell h3{font-size:1.2rem;margin-bottom:.4rem}
+.cell p{margin:0;color:var(--muted)}
+.cell:nth-child(3n+1){border-top:6px solid var(--indigo)}
+.cell:nth-child(3n+2){border-top:6px solid var(--ochre)}
+.cell:nth-child(3n){border-top:6px solid var(--leaf)}
+form.tool{max-width:680px;background:var(--panel);border:2px solid var(--text);padding:1.4rem;display:grid;gap:1rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:560px){.two{grid-template-columns:1fr}.btn.alt{margin:.6rem 0 0}}
+label{display:grid;gap:.3rem;font-weight:600}
+input,select,textarea{font:inherit;padding:.65rem .75rem;border:2px solid var(--line);border-radius:6px;background:var(--field);color:var(--text);width:100%}
+textarea{min-height:130px;resize:vertical}
+.status{margin:0;padding:.8rem 1rem;border-left:5px solid var(--ochre);background:var(--bg);color:var(--muted)}
+.status:empty{display:none}
+.out{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);border:2px solid var(--line);border-left:5px solid var(--leaf);padding:1rem;border-radius:6px}
+.btn:disabled{opacity:.6;cursor:wait}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}
+.plan{background:var(--panel);border:2px solid var(--text);padding:1.4rem;display:grid;gap:.6rem;align-content:start}
+.plan.main{border-color:var(--ochre);border-width:4px}
+.plan ul{margin:0;padding-left:1.1rem;color:var(--muted)}
+.price{font:800 1.6rem "Bricolage Grotesque",sans-serif}
+.empty{border:2px dashed var(--line);padding:1.5rem;color:var(--muted);max-width:680px;margin-top:1.5rem}
+.note{max-width:60ch;padding:1rem 1.2rem;border-left:5px solid var(--leaf);background:var(--panel);margin-top:2rem}
+.sw{margin-top:1rem}
+footer{background:var(--soil);color:#ecebe6;padding:2rem 0 2.5rem}
+footer p{margin:.3rem 0;opacity:.85}
+[hidden]{display:none!important}
+@media (max-width:760px){.shell{grid-template-columns:1fr}header.top{position:static;height:auto}nav ul{flex-direction:row;flex-wrap:wrap}.sub a{padding-left:.8rem}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top">
+  <div style="flex:1">
+    <nav aria-label="Navigation principale">
+      <a class="logo" href="#accueil">TASKORA<span> AI</span></a>
+      <ul>
+        <li><a href="#accueil" data-nav="accueil">Accueil</a></li>
+        <li><a href="#outils" data-nav="outils">Outils</a></li>
+        <li class="sub"><a href="#generateur" data-nav="generateur">Générateur IA</a></li>
+        <li class="sub"><a href="#traduction" data-nav="traduction">Traduction</a></li>
+        <li class="sub"><a href="#marketing" data-nav="marketing">Marketing IA</a></li>
+        <li class="sub"><a href="#documents" data-nav="documents">Documents IA</a></li>
+        <li class="sub"><a href="#business" data-nav="business">Assistant Business</a></li>
+        <li><a href="#tarifs" data-nav="tarifs">Tarifs</a></li>
+        <li><a href="#tableau-de-bord" data-nav="tableau-de-bord">Mon espace</a></li>
+        <li><a href="#connexion" data-nav="connexion">Connexion</a></li>
+        <li><a class="cta" href="#inscription">Inscription</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="band" role="presentation"></div>
+</header>
+<div class="content">
+<main class="wrap">
+
+<section class="view" id="accueil">
+  <div class="hero" style="background:var(--hero);color:#f6f5f1;margin:0 -1.25rem 3rem;padding:3.5rem 1.25rem 4.5rem">
+    <p class="greet" id="greet" style="opacity:1;max-width:none;font-size:clamp(2.6rem,9vw,5.5rem);margin:0 0 1.2rem">Bonjour<small>français</small></p>
+    <h1 style="max-width:20ch">Une aide claire, dans votre langue, où que vous soyez.</h1>
+    <p style="max-width:56ch;font-size:1.2rem;margin:1.2rem 0 2rem">TASKORA AI réunit des outils d’intelligence artificielle pour écrire, traduire, créer et lancer vos projets, sur un téléphone comme sur un ordinateur.</p>
+    <a class="btn" href="#outils">Explorer les outils</a>
+    <a class="btn alt" href="#inscription">Créer un compte</a>
+  </div>
+  <h2 style="font-size:1.8rem;margin-bottom:1.2rem">Cinq outils pour avancer</h2>
+  <div class="grid">
+    <a class="cell" href="#generateur"><h3>Générateur IA</h3><p>Produire des textes, des idées et des résultats à partir d’une consigne.</p></a>
+    <a class="cell" href="#traduction"><h3>Traduction</h3><p>Traduire vos contenus entre plusieurs langues.</p></a>
+    <a class="cell" href="#marketing"><h3>Marketing IA</h3><p>Créer des publicités pour vos produits.</p></a>
+    <a class="cell" href="#documents"><h3>Documents IA</h3><p>Rédiger un CV, une lettre ou un rapport.</p></a>
+    <a class="cell" href="#business"><h3>Assistant Business</h3><p>Accompagner les entrepreneurs, de l’idée au budget.</p></a>
+  </div>
+</section>
+
+<section class="view" id="outils" hidden>
+  <h1>Explorer les outils</h1>
+  <p class="lead">Choisissez l’outil qui correspond à ce que vous voulez faire aujourd’hui.</p>
+  <div class="grid">
+    <a class="cell" href="#generateur"><h3>Générateur IA</h3><p>Produire des résultats à partir de votre consigne.</p></a>
+    <a class="cell" href="#traduction"><h3>Traduction</h3><p>Traduire des contenus.</p></a>
+    <a class="cell" href="#marketing"><h3>Marketing IA</h3><p>Créer des publicités.</p></a>
+    <a class="cell" href="#documents"><h3>Documents IA</h3><p>Créer CV, lettres et rapports.</p></a>
+    <a class="cell" href="#business"><h3>Assistant Business</h3><p>Aider les entrepreneurs.</p></a>
+  </div>
+</section>
+
+<section class="view" id="generateur" hidden>
+  <h1>Générateur IA</h1>
+  <p class="lead">Décrivez ce que vous voulez obtenir. Plus la consigne est précise, plus le résultat sera utile.</p>
+  <form class="tool" data-msg="Le moteur d’IA n’est pas encore connecté : rien n’a été généré.">
+    <label>Type de résultat<select><option>Texte</option><option>Liste d’idées</option><option>Résumé</option><option>Réponse à une question</option></select></label>
+    <label>Votre consigne<textarea placeholder="Exemple : écris un message de bienvenue pour les clients de ma boutique."></textarea></label>
+    <button class="btn" type="submit">Générer</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+<section class="view" id="traduction" hidden>
+  <h1>Traduction</h1>
+  <p class="lead">Collez un texte, choisissez les langues, obtenez la traduction.</p>
+  <form class="tool" data-msg="Le moteur de traduction n’est pas encore connecté : rien n’a été traduit.">
+    <div class="two">
+      <label>De<select><option>Détecter la langue</option><option>Français</option><option>Bamanankan</option><option>English</option><option>العربية</option><option>Español</option><option>Português</option></select></label>
+      <label>Vers<select><option>Français</option><option>Bamanankan</option><option>English</option><option>العربية</option><option>Español</option><option>Português</option></select></label>
+    </div>
+    <label>Texte à traduire<textarea></textarea></label>
+    <button class="btn" type="submit">Traduire</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+<section class="view" id="marketing" hidden>
+  <h1>Marketing IA</h1>
+  <p class="lead">Créez une publicité pour votre produit ou service.</p>
+  <form class="tool" data-msg="Le moteur d’IA n’est pas encore connecté : aucune publicité n’a été créée.">
+    <label>Produit ou service<input type="text" placeholder="Exemple : savon de karité fait main"></label>
+    <div class="two">
+      <label>Public visé<input type="text" placeholder="Exemple : femmes de 25 à 45 ans"></label>
+      <label>Où sera-t-elle publiée ?<select><option>Facebook</option><option>WhatsApp</option><option>Instagram</option><option>Affiche</option><option>Radio</option></select></label>
+    </div>
+    <label>Ton<select><option>Chaleureux</option><option>Professionnel</option><option>Dynamique</option></select></label>
+    <button class="btn" type="submit">Créer la publicité</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+<section class="view" id="documents" hidden>
+  <h1>Documents IA</h1>
+  <p class="lead">Rédigez un CV, une lettre ou un rapport à partir de vos informations.</p>
+  <form class="tool" data-msg="Le moteur d’IA n’est pas encore connecté : aucun document n’a été créé.">
+    <label>Type de document<select><option>CV</option><option>Lettre de motivation</option><option>Lettre administrative</option><option>Rapport</option></select></label>
+    <label>Vos informations<textarea placeholder="Parcours, poste visé, destinataire, points à mettre en avant…"></textarea></label>
+    <button class="btn" type="submit">Créer le document</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+<section class="view" id="business" hidden>
+  <h1>Assistant Business</h1>
+  <p class="lead">Un conseiller pour structurer votre idée, vos prix et votre budget.</p>
+  <form class="tool" data-msg="Le moteur d’IA n’est pas encore connecté : aucune réponse n’a été produite.">
+    <label>Sujet<select><option>Valider mon idée</option><option>Calculer mes prix</option><option>Faire un budget</option><option>Écrire un plan d’activité</option></select></label>
+    <label>Votre situation<textarea placeholder="Décrivez votre activité, vos clients et vos moyens."></textarea></label>
+    <button class="btn" type="submit">Demander conseil</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+<section class="view" id="tarifs" hidden>
+  <h1>Tarifs</h1>
+  <p class="lead">Commencez gratuitement, passez à un abonnement quand vos besoins grandissent.</p>
+  <div class="plans">
+    <div class="plan"><h3>Gratuit</h3><p class="price">0</p><ul><li>Accès aux cinq outils</li><li>Usage limité</li></ul><a class="btn" href="#inscription">Commencer</a></div>
+    <div class="plan main"><h3>Pro</h3><p class="price">Prix à définir</p><ul><li>Usage étendu</li><li>Historique de vos travaux</li></ul><a class="btn" href="#inscription">Choisir Pro</a></div>
+    <div class="plan"><h3>Équipe</h3><p class="price">Prix à définir</p><ul><li>Plusieurs membres</li><li>Espace partagé</li></ul><a class="btn" href="#inscription">Choisir Équipe</a></div>
+  </div>
+</section>
+
+<section class="view" id="connexion" hidden>
+  <h1>Connexion</h1>
+  <p class="lead">Retrouvez votre espace personnel.</p>
+  <form class="tool" data-msg="La connexion n’est pas encore activée sur ce site.">
+    <label>Adresse e-mail<input type="email" autocomplete="email"></label>
+    <label>Mot de passe<input type="password" autocomplete="current-password"></label>
+    <button class="btn" type="submit">Se connecter</button>
+    <p class="status" role="status"></p>
+    <p style="margin:0">Pas encore de compte ? <a href="#inscription">Créer un compte</a></p>
+  </form>
+</section>
+
+<section class="view" id="inscription" hidden>
+  <h1>Inscription</h1>
+  <p class="lead">Créez un compte gratuit en une minute.</p>
+  <form class="tool" data-msg="La création de compte n’est pas encore activée sur ce site.">
+    <label>Nom<input type="text" autocomplete="name"></label>
+    <label>Adresse e-mail<input type="email" autocomplete="email"></label>
+    <label>Mot de passe<input type="password" autocomplete="new-password"></label>
+    <label>Langue préférée<select><option>Français</option><option>Bamanankan</option><option>English</option><option>العربية</option><option>Español</option><option>Português</option></select></label>
+    <button class="btn" type="submit">Créer mon compte</button>
+    <p class="status" role="status"></p>
+    <p style="margin:0">Déjà inscrit ? <a href="#connexion">Se connecter</a></p>
+  </form>
+</section>
+
+<section class="view" id="tableau-de-bord" hidden>
+  <h1>Tableau de bord</h1>
+  <p class="lead">Votre espace personnel : accédez à vos outils et à vos travaux.</p>
+  <div class="grid">
+    <a class="cell" href="#generateur"><h3>Générateur IA</h3><p>Nouvelle consigne</p></a>
+    <a class="cell" href="#traduction"><h3>Traduction</h3><p>Nouveau texte</p></a>
+    <a class="cell" href="#documents"><h3>Documents IA</h3><p>Nouveau document</p></a>
+    <a class="cell" href="#profil"><h3>Profil et paramètres</h3><p>Langue, compte, abonnement</p></a>
+  </div>
+  <p class="empty">Aucun travail enregistré pour le moment. Lancez un outil pour commencer.</p>
+</section>
+
+<section class="view" id="profil" hidden>
+  <h1>Profil et paramètres</h1>
+  <p class="lead">Gérez votre langue, votre compte et votre abonnement.</p>
+  <form class="tool" data-msg="Les paramètres ne peuvent pas encore être enregistrés : les comptes ne sont pas activés.">
+    <label>Langue de l’interface<select><option>Français</option><option>Bamanankan</option><option>English</option><option>العربية</option><option>Español</option><option>Português</option></select></label>
+    <label>Nom<input type="text"></label>
+    <label>Adresse e-mail<input type="email"></label>
+    <label>Abonnement<select><option>Gratuit</option><option>Pro</option><option>Équipe</option></select></label>
+    <button class="btn" type="submit">Enregistrer</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>TASKORA AI</strong></p>
+    <p>Une aide pour chacun, partout dans le monde.</p>
+    <p>© 2026 TASKORA AI</p>
+  </div>
+</footer>
+</div>
+</div>
+
+<script>
+(function(){
+  var views=[].slice.call(document.querySelectorAll(".view")),ids=views.map(function(v){return v.id});
+  function route(){
+    var h=location.hash.slice(1);if(ids.indexOf(h)<0)h="accueil";
+    views.forEach(function(v){v.hidden=v.id!==h});
+    [].forEach.call(document.querySelectorAll("[data-nav]"),function(a){
+      if(a.getAttribute("data-nav")===h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+    });
+    window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange",route);route();
+  var AI={generateur:"Tu es l’assistant TASKORA AI. Produis le résultat demandé dans la consigne de l’utilisateur.",traduction:"Traduis le texte fourni de la langue source vers la langue cible (si la source est « Détecter la langue », détecte-la). Réponds uniquement avec la traduction.",marketing:"Écris une publicité courte et efficace pour le produit, adaptée au public, au canal et au ton indiqués. Propose un titre puis un texte.",documents:"Rédige le document demandé (CV, lettre ou rapport) à partir des informations fournies, prêt à copier. Si des informations manquent, laisse des champs entre crochets au lieu de les inventer.",business:"Tu es un conseiller pour petits entrepreneurs. Donne des conseils concrets et simples, chiffrés quand c’est possible, sans inventer de données locales. Pour le juridique ou le fiscal, rappelle de vérifier avec un professionnel."};
+  [].forEach.call(document.querySelectorAll("form.tool"),function(f){
+    var id=f.closest(".view").id,st=f.querySelector(".status");
+    f.addEventListener("submit",function(e){
+      e.preventDefault();
+      if(!AI[id]){st.textContent=f.getAttribute("data-msg");return;}
+      var main=f.querySelector("textarea,input[type=text]");
+      if(main&&!main.value.trim()){st.textContent="Remplissez d’abord le champ de texte.";return;}
+      var out=f.querySelector(".out");
+      if(!out){out=document.createElement("div");out.className="out";out.hidden=true;f.appendChild(out);}
+      var parts=[].map.call(f.querySelectorAll("label"),function(l){var c=l.querySelector("select,textarea,input");return l.childNodes[0].textContent.trim()+" : "+c.value.trim();});
+      var btn=f.querySelector("button");
+      st.textContent="Génération en cours…";btn.disabled=true;out.hidden=true;
+      var prompt=AI[id]+"\nÉcris en texte simple, sans markdown. Réponds dans la langue de la demande, en français par défaut.\n\n"+parts.join("\n");
+      fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:prompt})})
+      .then(function(res){if(res.status===429)throw {code:"rate_limited"};if(!res.ok)throw {code:"error"};return res.json();})
+      .then(function(r){out.hidden=false;out.textContent=r.text;st.textContent="";})
+      .catch(function(err){
+        var c=err&&err.code;
+        st.textContent=c==="not_granted"?"Autorisation refusée : l’IA n’a pas été utilisée.":c==="rate_limited"?"Trop de demandes. Réessayez dans un instant.":c==="unavailable"?"L’IA n’est disponible que lorsque la page est ouverte dans Claude.":"Une erreur est survenue. Réessayez.";
+      }).then(function(){btn.disabled=false;});
+    });
+  });
+  var list=[["Bonjour","français"],["I ni sɔgɔma","bamanankan"],["Hello","English"],["مرحبا","العربية"],["Hola","español"],["Olá","português"]],el=document.getElementById("greet"),i=0;
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  setInterval(function(){
+    el.classList.add("out");
+    setTimeout(function(){
+      i=(i+1)%list.length;el.textContent=list[i][0];
+      var s=document.createElement("small");s.textContent=list[i][1];el.appendChild(s);el.classList.remove("out");
+    },350);
+  },2600);
+})();
+</script>
+</body>
+</html>
