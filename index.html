@@ -294,11 +294,11 @@ footer p{margin:.3rem 0;opacity:.85}
       st.textContent="Génération en cours…";btn.disabled=true;out.hidden=true;
       var prompt=AI[id]+"\nÉcris en texte simple, sans markdown. Réponds dans la langue de la demande, en français par défaut.\n\n"+parts.join("\n");
       fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:prompt})})
-      .then(function(res){if(res.status===429)throw {code:"rate_limited"};if(!res.ok)throw {code:"error"};return res.json();})
+      .then(function(res){return res.json().catch(function(){return {}}).then(function(data){if(!res.ok){throw {code:data.error==="missing_key"?"missing_key":res.status===429?"rate_limited":"error"};}return data;});})
       .then(function(r){out.hidden=false;out.textContent=r.text;st.textContent="";})
       .catch(function(err){
         var c=err&&err.code;
-        st.textContent=c==="not_granted"?"Autorisation refusée : l’IA n’a pas été utilisée.":c==="rate_limited"?"Trop de demandes. Réessayez dans un instant.":c==="unavailable"?"L’IA n’est disponible que lorsque la page est ouverte dans Claude.":"Une erreur est survenue. Réessayez.";
+        st.textContent=c==="missing_key"?"OpenAI n’est pas configuré sur le serveur.":c==="rate_limited"?"Trop de demandes. Réessayez dans un instant.":c==="unavailable"?"L’IA n’est pas disponible sur ce serveur.":"Une erreur est survenue. Réessayez.";
       }).then(function(){btn.disabled=false;});
     });
   });
